@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-
-using CitizenFX.Core;
-
+using MenuAPI;
 using Newtonsoft.Json;
-
-using vMenuClient.menus;
-
+using CitizenFX.Core;
+using static CitizenFX.Core.UI.Screen;
 using static CitizenFX.Core.Native.API;
 using static vMenuClient.CommonFunctions;
 using static vMenuShared.ConfigManager;
@@ -51,14 +49,9 @@ namespace vMenuClient
             EventHandlers.Add("vMenu:UpdateTeleportLocations", new Action<string>(UpdateTeleportLocations));
 
             if (GetSettingsBool(Setting.vmenu_enable_weather_sync))
-            {
                 Tick += WeatherSync;
-            }
-
             if (GetSettingsBool(Setting.vmenu_enable_time_sync))
-            {
                 Tick += TimeSync;
-            }
 
             RegisterNuiCallbackType("disableImportExportNUI");
             RegisterNuiCallbackType("importData");
@@ -89,9 +82,12 @@ namespace vMenuClient
             if (firstSpawn)
             {
                 firstSpawn = false;
-                if (MainMenu.MiscSettingsMenu != null && MainMenu.MpPedCustomizationMenu != null && MainMenu.MiscSettingsMenu.MiscRespawnDefaultCharacter && !string.IsNullOrEmpty(GetResourceKvpString("vmenu_default_character")) && !GetSettingsBool(Setting.vmenu_disable_spawning_as_default_character))
+                if (MainMenu.MiscSettingsMenu != null && MainMenu.MpPedCustomizationMenu != null && MainMenu.MiscSettingsMenu.MiscRespawnDefaultCharacter)
                 {
-                    await MainMenu.MpPedCustomizationMenu.SpawnThisCharacter(GetResourceKvpString("vmenu_default_character"), false);
+                    if (!string.IsNullOrEmpty(GetResourceKvpString("vmenu_default_character")) && !GetSettingsBool(Setting.vmenu_disable_spawning_as_default_character)) 
+                    {
+                        await RestorePlayerAppearance();
+                    }
                 }
                 while (!IsScreenFadedIn() || IsPlayerSwitchInProgress() || IsPauseMenuActive() || GetIsLoadingScreenActive())
                 {
@@ -119,7 +115,7 @@ namespace vMenuClient
             WeaponOptions.AddonWeapons = new Dictionary<string, uint>();
             PlayerAppearance.AddonPeds = new Dictionary<string, uint>();
 
-            var jsonData = LoadResourceFile(GetCurrentResourceName(), "config/addons.json") ?? "{}";
+            string jsonData = LoadResourceFile(GetCurrentResourceName(), "config/addons.json") ?? "{}";
             try
             {
                 // load new addons.
@@ -128,48 +124,36 @@ namespace vMenuClient
                 // load vehicles
                 if (addons.ContainsKey("vehicles"))
                 {
-                    foreach (var addon in addons["vehicles"])
+                    foreach (string addon in addons["vehicles"])
                     {
                         if (!VehicleSpawner.AddonVehicles.ContainsKey(addon))
-                        {
                             VehicleSpawner.AddonVehicles.Add(addon, (uint)GetHashKey(addon));
-                        }
                         else
-                        {
                             Debug.WriteLine($"[vMenu] [Error] Your addons.json file contains 2 or more entries with the same vehicle name! ({addon}) Please remove duplicate lines!");
-                        }
                     }
                 }
 
                 // load weapons
                 if (addons.ContainsKey("weapons"))
                 {
-                    foreach (var addon in addons["weapons"])
+                    foreach (string addon in addons["weapons"])
                     {
                         if (!WeaponOptions.AddonWeapons.ContainsKey(addon))
-                        {
                             WeaponOptions.AddonWeapons.Add(addon, (uint)GetHashKey(addon));
-                        }
                         else
-                        {
                             Debug.WriteLine($"[vMenu] [Error] Your addons.json file contains 2 or more entries with the same weapon name! ({addon}) Please remove duplicate lines!");
-                        }
                     }
                 }
 
                 // load peds.
                 if (addons.ContainsKey("peds"))
                 {
-                    foreach (var addon in addons["peds"])
+                    foreach (string addon in addons["peds"])
                     {
                         if (!PlayerAppearance.AddonPeds.ContainsKey(addon))
-                        {
                             PlayerAppearance.AddonPeds.Add(addon, (uint)GetHashKey(addon));
-                        }
                         else
-                        {
                             Debug.WriteLine($"[vMenu] [Error] Your addons.json file contains 2 or more entries with the same ped name! ({addon}) Please remove duplicate lines!");
-                        }
                     }
                 }
             }
@@ -187,7 +171,8 @@ namespace vMenuClient
         /// <param name="list"></param>
         private void UpdateBanList(string list)
         {
-            MainMenu.BannedPlayersMenu?.UpdateBanList(list);
+            if (MainMenu.BannedPlayersMenu != null)
+                MainMenu.BannedPlayersMenu.UpdateBanList(list);
         }
 
         /// <summary>
@@ -232,10 +217,11 @@ namespace vMenuClient
         {
             await UpdateWeatherParticles();
             SetArtificialLightsState(IsBlackoutEnabled);
+            SetArtificialLightsStateAffectsVehicles(false);
             if (GetNextWeatherType() != GetHashKey(GetServerWeather))
             {
                 SetWeatherTypeOvertimePersist(GetServerWeather, (float)WeatherChangeTime);
-                await Delay((WeatherChangeTime * 1000) + 2000);
+                await Delay(WeatherChangeTime * 1000 + 2000);
 
                 TriggerEvent("vMenu:WeatherChangeComplete", GetServerWeather);
             }
@@ -334,15 +320,13 @@ namespace vMenuClient
         {
             if (NetworkDoesNetworkIdExist(vehNetId))
             {
-                var veh = NetToVeh(vehNetId);
+                int veh = NetToVeh(vehNetId);
                 if (DoesEntityExist(veh))
                 {
-                    var vehicle = new Vehicle(veh);
+                    Vehicle vehicle = new Vehicle(veh);
 
                     if (vehicle == null || !vehicle.Exists())
-                    {
                         return;
-                    }
 
                     if (Game.PlayerPed.IsInVehicle(vehicle) && vehicleOwnedBy != Game.Player.ServerId)
                     {
@@ -388,7 +372,7 @@ namespace vMenuClient
         private async void UpdatePedDecors()
         {
             await Delay(1000);
-            var backup = PlayerAppearance.ClothingAnimationType;
+            int backup = PlayerAppearance.ClothingAnimationType;
             PlayerAppearance.ClothingAnimationType = -1;
             await Delay(100);
             PlayerAppearance.ClothingAnimationType = backup;

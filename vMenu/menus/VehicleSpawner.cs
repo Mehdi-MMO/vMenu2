@@ -1,17 +1,17 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using CitizenFX.Core;
-
+using System.Text;
+using System.Threading.Tasks;
 using MenuAPI;
-
-using vMenuClient.data;
-
+using Newtonsoft.Json;
+using CitizenFX.Core;
+using static CitizenFX.Core.UI.Screen;
 using static CitizenFX.Core.Native.API;
 using static vMenuClient.CommonFunctions;
 using static vMenuShared.PermissionsManager;
 
-namespace vMenuClient.menus
+namespace vMenuClient
 {
     public class VehicleSpawner
     {
@@ -30,9 +30,9 @@ namespace vMenuClient.menus
             menu = new Menu(Game.Player.Name, "Vehicle Spawner");
 
             // Create the buttons and checkboxes.
-            var spawnByName = new MenuItem("Spawn Vehicle By Model Name", "Enter the name of a vehicle to spawn.");
-            var spawnInVeh = new MenuCheckboxItem("Spawn Inside Vehicle", "This will teleport you into the vehicle when you spawn it.", SpawnInVehicle);
-            var replacePrev = new MenuCheckboxItem("Replace Previous Vehicle", "This will automatically delete your previously spawned vehicle when you spawn a new vehicle.", ReplaceVehicle);
+            MenuItem spawnByName = new MenuItem("Spawn Vehicle By Model Name", "Enter the name of a vehicle to spawn.");
+            MenuCheckboxItem spawnInVeh = new MenuCheckboxItem("Spawn Inside Vehicle", "This will teleport you into the vehicle when you spawn it.", SpawnInVehicle);
+            MenuCheckboxItem replacePrev = new MenuCheckboxItem("Replace Previous Vehicle", "This will automatically delete your previously spawned vehicle when you spawn a new vehicle.", ReplaceVehicle);
 
             // Add the items to the menu.
             if (IsAllowed(Permission.VSSpawnByName))
@@ -45,8 +45,8 @@ namespace vMenuClient.menus
 
             #region addon cars menu
             // Vehicle Addons List
-            var addonCarsMenu = new Menu("Addon Vehicles", "Spawn An Addon Vehicle");
-            var addonCarsBtn = new MenuItem("Addon Vehicles", "A list of addon vehicles available on this server.") { Label = "→→→" };
+            Menu addonCarsMenu = new Menu("Addon Vehicles", "Spawn An Addon Vehicle");
+            MenuItem addonCarsBtn = new MenuItem("Addon Vehicles", "A list of addon vehicles available on this server.") { Label = "→→→" };
 
             menu.AddMenuItem(addonCarsBtn);
 
@@ -58,14 +58,14 @@ namespace vMenuClient.menus
                     {
                         MenuController.BindMenuItem(menu, addonCarsMenu, addonCarsBtn);
                         MenuController.AddSubmenu(menu, addonCarsMenu);
-                        var unavailableCars = new Menu("Addon Spawner", "Unavailable Vehicles");
-                        var unavailableCarsBtn = new MenuItem("Unavailable Vehicles", "These addon vehicles are not currently being streamed (correctly) and are not able to be spawned.") { Label = "→→→" };
+                        Menu unavailableCars = new Menu("Addon Spawner", "Unavailable Vehicles");
+                        MenuItem unavailableCarsBtn = new MenuItem("Unavailable Vehicles", "These addon vehicles are not currently being streamed (correctly) and are not able to be spawned.") { Label = "→→→" };
                         MenuController.AddSubmenu(addonCarsMenu, unavailableCars);
 
                         for (var cat = 0; cat < 23; cat++)
                         {
-                            var categoryMenu = new Menu("Addon Spawner", GetLabelText($"VEH_CLASS_{cat}"));
-                            var categoryBtn = new MenuItem(GetLabelText($"VEH_CLASS_{cat}"), $"Spawn an addon vehicle from the {GetLabelText($"VEH_CLASS_{cat}")} class.") { Label = "→→→" };
+                            Menu categoryMenu = new Menu("Addon Spawner", GetLabelText($"VEH_CLASS_{cat}"));
+                            MenuItem categoryBtn = new MenuItem(GetLabelText($"VEH_CLASS_{cat}"), $"Spawn an addon vehicle from the {GetLabelText($"VEH_CLASS_{cat}")} class.") { Label = "→→→" };
 
                             addonCarsMenu.AddMenuItem(categoryBtn);
 
@@ -79,14 +79,14 @@ namespace vMenuClient.menus
                             }
 
                             // Loop through all addon vehicles in this class.
-                            foreach (var veh in AddonVehicles.Where(v => GetVehicleClassFromName(v.Value) == cat))
+                            foreach (KeyValuePair<string, uint> veh in AddonVehicles.Where(v => GetVehicleClassFromName(v.Value) == cat))
                             {
-                                var localizedName = GetLabelText(GetDisplayNameFromVehicleModel(veh.Value));
+                                string localizedName = GetLabelText(GetDisplayNameFromVehicleModel(veh.Value));
 
-                                var name = localizedName != "NULL" ? localizedName : GetDisplayNameFromVehicleModel(veh.Value);
+                                string name = localizedName != "NULL" ? localizedName : GetDisplayNameFromVehicleModel(veh.Value);
                                 name = name != "CARNOTFOUND" ? name : veh.Key;
 
-                                var carBtn = new MenuItem(name, $"Click to spawn {name}.")
+                                MenuItem carBtn = new MenuItem(name, $"Click to spawn {name}.")
                                 {
                                     Label = $"({veh.Key})",
                                     ItemData = veh.Key // store the model name in the button data.
@@ -155,7 +155,7 @@ namespace vMenuClient.menus
             #endregion
 
             // These are the max speed, acceleration, braking and traction values per vehicle class.
-            var speedValues = new float[23]
+            float[] speedValues = new float[23]
             {
                 44.9374657f,
                 50.0000038f,
@@ -181,7 +181,7 @@ namespace vMenuClient.menus
                 26.66667f,
                 53.0537224f
             };
-            var accelerationValues = new float[23]
+            float[] accelerationValues = new float[23]
             {
                 0.34f,
                 0.29f,
@@ -207,7 +207,7 @@ namespace vMenuClient.menus
                 0.2f,
                 0.76f
             };
-            var brakingValues = new float[23]
+            float[] brakingValues = new float[23]
             {
                 0.72f,
                 0.95f,
@@ -233,7 +233,7 @@ namespace vMenuClient.menus
                 5.0f,
                 1.3f
             };
-            var tractionValues = new float[23]
+            float[] tractionValues = new float[23]
             {
                 2.3f,
                 2.55f,
@@ -265,15 +265,15 @@ namespace vMenuClient.menus
             for (var vehClass = 0; vehClass < 23; vehClass++)
             {
                 // Get the class name.
-                var className = GetLabelText($"VEH_CLASS_{vehClass}");
+                string className = GetLabelText($"VEH_CLASS_{vehClass}");
 
                 // Create a button & a menu for it, add the menu to the menu pool and add & bind the button to the menu.
-                var btn = new MenuItem(className, $"Spawn a vehicle from the ~o~{className} ~s~class.")
+                MenuItem btn = new MenuItem(className, $"Spawn a vehicle from the ~o~{className} ~s~class.")
                 {
                     Label = "→→→"
                 };
 
-                var vehicleClassMenu = new Menu("Vehicle Spawner", className);
+                Menu vehicleClassMenu = new Menu("Vehicle Spawner", className);
 
                 MenuController.AddSubmenu(menu, vehicleClassMenu);
                 menu.AddMenuItem(btn);
@@ -297,17 +297,17 @@ namespace vMenuClient.menus
                 foreach (var veh in VehicleData.Vehicles.VehicleClasses[className])
                 {
                     // Convert the model name to start with a Capital letter, converting the other characters to lowercase. 
-                    var properCasedModelName = veh[0].ToString().ToUpper() + veh.ToLower().Substring(1);
+                    string properCasedModelName = veh[0].ToString().ToUpper() + veh.ToLower().Substring(1);
 
                     // Get the localized vehicle name, if it's "NULL" (no label found) then use the "properCasedModelName" created above.
-                    var vehName = GetVehDisplayNameFromModel(veh) != "NULL" ? GetVehDisplayNameFromModel(veh) : properCasedModelName;
-                    var vehModelName = veh;
-                    var model = (uint)GetHashKey(vehModelName);
+                    string vehName = GetVehDisplayNameFromModel(veh) != "NULL" ? GetVehDisplayNameFromModel(veh) : properCasedModelName;
+                    string vehModelName = veh;
+                    uint model = (uint)GetHashKey(vehModelName);
 
-                    var topSpeed = Map(GetVehicleModelEstimatedMaxSpeed(model), 0f, speedValues[vehClass], 0f, 1f);
-                    var acceleration = Map(GetVehicleModelAcceleration(model), 0f, accelerationValues[vehClass], 0f, 1f);
-                    var maxBraking = Map(GetVehicleModelMaxBraking(model), 0f, brakingValues[vehClass], 0f, 1f);
-                    var maxTraction = Map(GetVehicleModelMaxTraction(model), 0f, tractionValues[vehClass], 0f, 1f);
+                    float topSpeed = Map(GetVehicleModelEstimatedMaxSpeed(model), 0f, speedValues[vehClass], 0f, 1f);
+                    float acceleration = Map(GetVehicleModelAcceleration(model), 0f, accelerationValues[vehClass], 0f, 1f);
+                    float maxBraking = Map(GetVehicleModelMaxBraking(model), 0f, brakingValues[vehClass], 0f, 1f);
+                    float maxTraction = Map(GetVehicleModelMaxTraction(model), 0f, tractionValues[vehClass], 0f, 1f);
 
                     // Loop through all the menu items and check each item's title/text and see if it matches the current vehicle (display) name.
                     var duplicate = false;
@@ -399,7 +399,7 @@ namespace vMenuClient.menus
                     await SpawnVehicle(VehicleData.Vehicles.VehicleClasses[className][index2], SpawnInVehicle, ReplaceVehicle);
                 };
 
-                static void HandleStatsPanel(Menu openedMenu, MenuItem currentItem)
+                void HandleStatsPanel(Menu openedMenu, MenuItem currentItem)
                 {
                     if (currentItem != null)
                     {

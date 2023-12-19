@@ -1,13 +1,20 @@
-#### Latest Builds
+Let me know if there are any issues.
 
-##### Latest AppVeyor build
 
-|Latest Build|
-|:-:|
-|[![Build status](https://ci.appveyor.com/api/projects/status/inf2kinljmp8a5ul?svg=true)](https://ci.appveyor.com/project/TomGrobbe/vmenu)|
+
+#### vMenu Credits:
+- AlexR32 : for Add vehicle stance and drift tires (PR)
+- MichaelCoding25 : for mpsecurity patch (PR)
+- NylanderrDK : destroy engine feature (PR)
+- Zhincore: Allow respawning as saved ped instead of only mp ped feature (fork)
+- matty45: Compiling all of the other PR from the main branch (fork)
+
+- Vespura/TomGrobbe : For being the original creator of this amazing menu!
+
+If i missed anyone, sorry for being stupid!, just let me know and ill add you.
 
 --------
-
+All I have done is added the most recent Updates Weapons & Vehicles "(2802) (MPCHRISTMAS3) (Los Santos Drug Wars DLC)"
 
 # vMenu
 vMenu is server sided menu for FiveM servers, including full\* permission support.
@@ -75,7 +82,7 @@ vMenu v2.0.0 and earlier was [using a modified version of NativeUI](https://gith
 
 Tom Grobbe - https://www.vespura.com/
 
-Copyright © 2017-2023
+Copyright © 2017-2022
 
 You can use and edit this code to your liking as long as you don't ever claim it to be your own code and always provide proper credit. 
 You're **not** allowed to sell vMenu or any code you take from it.

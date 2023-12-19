@@ -3,9 +3,13 @@
     Data source: GTA V <update>_overlays.xml files.
 */
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace vMenuClient.data
+namespace vMenuClient
 {
     public enum TattooZone
     {
@@ -47,24 +51,24 @@ namespace vMenuClient.data
 
     internal static class MaleTattoosCollection
     {
-        internal static List<Tattoo> TORSO = new();
-        internal static List<Tattoo> HEAD = new();
-        internal static List<Tattoo> LEFT_ARM = new();
-        internal static List<Tattoo> RIGHT_ARM = new();
-        internal static List<Tattoo> LEFT_LEG = new();
-        internal static List<Tattoo> RIGHT_LEG = new();
-        internal static List<Tattoo> BADGES = new();
+        internal static List<Tattoo> TORSO = new List<Tattoo>();
+        internal static List<Tattoo> HEAD = new List<Tattoo>();
+        internal static List<Tattoo> LEFT_ARM = new List<Tattoo>();
+        internal static List<Tattoo> RIGHT_ARM = new List<Tattoo>();
+        internal static List<Tattoo> LEFT_LEG = new List<Tattoo>();
+        internal static List<Tattoo> RIGHT_LEG = new List<Tattoo>();
+        internal static List<Tattoo> BADGES = new List<Tattoo>();
     }
 
     internal struct FemaleTattoosCollection
     {
-        internal static List<Tattoo> TORSO = new();
-        internal static List<Tattoo> HEAD = new();
-        internal static List<Tattoo> LEFT_ARM = new();
-        internal static List<Tattoo> RIGHT_ARM = new();
-        internal static List<Tattoo> LEFT_LEG = new();
-        internal static List<Tattoo> RIGHT_LEG = new();
-        internal static List<Tattoo> BADGES = new();
+        internal static List<Tattoo> TORSO = new List<Tattoo>();
+        internal static List<Tattoo> HEAD = new List<Tattoo>();
+        internal static List<Tattoo> LEFT_ARM = new List<Tattoo>();
+        internal static List<Tattoo> RIGHT_ARM = new List<Tattoo>();
+        internal static List<Tattoo> LEFT_LEG = new List<Tattoo>();
+        internal static List<Tattoo> RIGHT_LEG = new List<Tattoo>();
+        internal static List<Tattoo> BADGES = new List<Tattoo>();
     }
 
     internal static class TattoosData
@@ -88,61 +92,61 @@ namespace vMenuClient.data
                         switch (tattoo.zoneId)
                         {
                             case TattooZone.ZONE_TORSO:
-                                if (tattoo.gender is 0 or 2)
+                                if (tattoo.gender == 0 || tattoo.gender == 2)
                                 {
                                     MaleTattoosCollection.TORSO.Add(tattoo);
                                 }
-                                if (tattoo.gender is 1 or 2)
+                                if (tattoo.gender == 1 || tattoo.gender == 2)
                                 {
                                     FemaleTattoosCollection.TORSO.Add(tattoo);
                                 }
                                 break;
                             case TattooZone.ZONE_HEAD:
-                                if (tattoo.gender is 0 or 2)
+                                if (tattoo.gender == 0 || tattoo.gender == 2)
                                 {
                                     MaleTattoosCollection.HEAD.Add(tattoo);
                                 }
-                                if (tattoo.gender is 1 or 2)
+                                if (tattoo.gender == 1 || tattoo.gender == 2)
                                 {
                                     FemaleTattoosCollection.HEAD.Add(tattoo);
                                 }
                                 break;
                             case TattooZone.ZONE_LEFT_ARM:
-                                if (tattoo.gender is 0 or 2)
+                                if (tattoo.gender == 0 || tattoo.gender == 2)
                                 {
                                     MaleTattoosCollection.LEFT_ARM.Add(tattoo);
                                 }
-                                if (tattoo.gender is 1 or 2)
+                                if (tattoo.gender == 1 || tattoo.gender == 2)
                                 {
                                     FemaleTattoosCollection.LEFT_ARM.Add(tattoo);
                                 }
                                 break;
                             case TattooZone.ZONE_RIGHT_ARM:
-                                if (tattoo.gender is 0 or 2)
+                                if (tattoo.gender == 0 || tattoo.gender == 2)
                                 {
                                     MaleTattoosCollection.RIGHT_ARM.Add(tattoo);
                                 }
-                                if (tattoo.gender is 1 or 2)
+                                if (tattoo.gender == 1 || tattoo.gender == 2)
                                 {
                                     FemaleTattoosCollection.RIGHT_ARM.Add(tattoo);
                                 }
                                 break;
                             case TattooZone.ZONE_LEFT_LEG:
-                                if (tattoo.gender is 0 or 2)
+                                if (tattoo.gender == 0 || tattoo.gender == 2)
                                 {
                                     MaleTattoosCollection.LEFT_LEG.Add(tattoo);
                                 }
-                                if (tattoo.gender is 1 or 2)
+                                if (tattoo.gender == 1 || tattoo.gender == 2)
                                 {
                                     FemaleTattoosCollection.LEFT_LEG.Add(tattoo);
                                 }
                                 break;
                             case TattooZone.ZONE_RIGHT_LEG:
-                                if (tattoo.gender is 0 or 2)
+                                if (tattoo.gender == 0 || tattoo.gender == 2)
                                 {
                                     MaleTattoosCollection.RIGHT_LEG.Add(tattoo);
                                 }
-                                if (tattoo.gender is 1 or 2)
+                                if (tattoo.gender == 1 || tattoo.gender == 2)
                                 {
                                     FemaleTattoosCollection.RIGHT_LEG.Add(tattoo);
                                 }
@@ -153,22 +157,22 @@ namespace vMenuClient.data
                     }
                     else if (tattoo.type == "TYPE_BADGE" && !tattoo.name.ToLower().Contains("hair_"))
                     {
-                        if (tattoo.gender is 0 or 2)
+                        if (tattoo.gender == 0 || tattoo.gender == 2)
                         {
                             MaleTattoosCollection.BADGES.Add(tattoo);
                         }
-                        if (tattoo.gender is 1 or 2)
+                        if (tattoo.gender == 1 || tattoo.gender == 2)
                         {
                             FemaleTattoosCollection.BADGES.Add(tattoo);
                         }
                     }
                     else if (tattoo.name.ToLower().Contains("hair_"))
                     {
-                        if (tattoo.gender is 0 or 2)
+                        if (tattoo.gender == 0 || tattoo.gender == 2)
                         {
 
                         }
-                        if (tattoo.gender is 1 or 2)
+                        if (tattoo.gender == 1 || tattoo.gender == 2)
                         {
 
                         }

@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
-
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CitizenFX.Core;
 using static CitizenFX.Core.Native.API;
 
 namespace vMenuClient.data
 {
     public static class PedModels
     {
-        public static List<uint> AnimalHashes = new()
+        public static List<uint> AnimalHashes = new List<uint>()
         {
             (uint)GetHashKey("a_c_boar"),
             (uint)GetHashKey("a_c_boar_02"), // mp2023_01

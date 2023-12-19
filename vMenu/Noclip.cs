@@ -1,12 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
 using CitizenFX.Core;
-
 using static CitizenFX.Core.Native.API;
-
-using static vMenuShared.ConfigManager;
 
 namespace vMenuClient
 {
@@ -14,11 +9,11 @@ namespace vMenuClient
     {
         private static bool NoclipActive { get; set; } = false;
         private static int MovingSpeed { get; set; } = 0;
-        private static int Scale = -1;
+        private static int Scale { get; set; } = -1;
         private static bool FollowCamMode { get; set; } = true;
 
 
-        private readonly List<string> speeds = new()
+        private List<string> speeds = new List<string>()
         {
             "Very Slow",
             "Slow",
@@ -38,48 +33,13 @@ namespace vMenuClient
         internal static void SetNoclipActive(bool active)
         {
             NoclipActive = active;
-
-            if (!active)
-            {
-                SetScaleformMovieAsNoLongerNeeded(ref Scale);
-
-                Scale = -1;
-            }
         }
 
         internal static bool IsNoclipActive()
         {
             return NoclipActive;
         }
-        static string JOAAT(string command)
-        {
-            uint hash = 0;
-            string str = command.ToLower();
 
-            for (int i = 0; i < str.Length; i++)
-            {
-                uint letter = (uint)str[i];
-                hash += letter;
-                hash += (hash << 10);
-                hash ^= (hash >> 6);
-            }
-
-            hash += (hash << 3);
-            if (hash < 0)
-            {
-                hash = (uint)((int)hash);
-            }
-
-            hash ^= (hash >> 11);
-            hash += (hash << 15);
-
-            if (hash < 0)
-            {
-                hash = (uint)((int)hash);
-            }
-
-            return hash.ToString("X");
-        }
         private async Task NoClipHandler()
         {
             if (NoclipActive)
@@ -137,8 +97,7 @@ namespace vMenuClient
 
                     BeginScaleformMovieMethod(Scale, "SET_DATA_SLOT");
                     ScaleformMovieMethodAddParamInt(6);
-                    string KeyMappingID = String.IsNullOrWhiteSpace(GetSettingsString(Setting.vmenu_keymapping_id)) ? "Default" :  GetSettingsString(Setting.vmenu_keymapping_id);
-                    PushScaleformMovieMethodParameterString($"~INPUT_{JOAAT($"vMenu:{KeyMappingID}:NoClip")}~");
+                    PushScaleformMovieMethodParameterString(GetControlInstructionalButton(0, MainMenu.NoClipKey, 1));
                     PushScaleformMovieMethodParameterString($"Toggle NoClip");
                     EndScaleformMovieMethod();
 
@@ -169,9 +128,7 @@ namespace vMenuClient
                 Game.DisableControlThisFrame(0, Control.MultiplayerInfo);
                 Game.DisableControlThisFrame(0, Control.VehicleHeadlight);
                 if (Game.PlayerPed.IsInVehicle())
-                {
                     Game.DisableControlThisFrame(0, Control.VehicleRadioWheel);
-                }
 
                 var yoff = 0.0f;
                 var zoff = 0.0f;
@@ -245,7 +202,7 @@ namespace vMenuClient
                 SetEntityCollision(noclipEntity, true, true);
 
                 // If the player is not set as invisible by PlayerOptions or if the noclip entity is not the player ped, reset the visibility
-                if (MainMenu.PlayerOptionsMenu == null || !MainMenu.PlayerOptionsMenu.PlayerInvisible || (MainMenu.PlayerOptionsMenu.PlayerInvisible && noclipEntity == Game.PlayerPed.Handle))
+                if (MainMenu.PlayerOptionsMenu == null || (!MainMenu.PlayerOptionsMenu.PlayerInvisible || (MainMenu.PlayerOptionsMenu.PlayerInvisible && noclipEntity == Game.PlayerPed.Handle)))
                 {
                     SetEntityVisible(noclipEntity, true, false);
                     SetLocalPlayerVisibleLocally(true);
