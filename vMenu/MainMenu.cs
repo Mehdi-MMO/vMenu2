@@ -144,6 +144,7 @@ namespace vMenuClient
                     }
                 }
             }), false);
+
             RegisterCommand($"vMenu:{KeyMappingID}:MenuToggle", new Action<dynamic, List<dynamic>, string>((dynamic source, List<dynamic> args, string rawCommand) =>
             {
                if (MenuEnabled)
@@ -203,7 +204,23 @@ namespace vMenuClient
                 {
                     SetNuiFocus(false, false);
                 }), false);
+
             }
+
+            RegisterCommand("vmenu", new Action<dynamic, List<dynamic>, string>((dynamic source, List<dynamic> args, string rawCommand) =>
+            {
+                if (MenuEnabled)
+               {
+                   if (!MenuController.IsAnyMenuOpen())
+                   {
+                       Menu.OpenMenu();
+                   }
+                   else
+                   {
+                       MenuController.CloseAllMenus();
+                   }
+               }
+            }), false);
 
             RegisterCommand("vmenuclient", new Action<dynamic, List<dynamic>, string>((dynamic source, List<dynamic> args, string rawCommand) =>
             {
