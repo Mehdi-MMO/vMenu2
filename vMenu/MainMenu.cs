@@ -160,6 +160,21 @@ namespace vMenuClient
                }
             }), false);
 
+            RegisterCommand("vmenu", new Action<dynamic, List<dynamic>, string>((dynamic source, List<dynamic> args, string rawCommand) =>
+            {
+                if (MenuEnabled)
+               {
+                   if (!MenuController.IsAnyMenuOpen())
+                   {
+                       Menu.OpenMenu();
+                   }
+                   else
+                   {
+                       MenuController.CloseAllMenus();
+                   }
+               }
+            }), false);
+
             if (!(GetSettingsString(Setting.vmenu_noclip_toggle_key) == null))
             {
                 NoClipKey = GetSettingsString(Setting.vmenu_noclip_toggle_key);
@@ -206,21 +221,6 @@ namespace vMenuClient
                 }), false);
 
             }
-
-            RegisterCommand("vmenu", new Action<dynamic, List<dynamic>, string>((dynamic source, List<dynamic> args, string rawCommand) =>
-            {
-                if (MenuEnabled)
-               {
-                   if (!MenuController.IsAnyMenuOpen())
-                   {
-                       Menu.OpenMenu();
-                   }
-                   else
-                   {
-                       MenuController.CloseAllMenus();
-                   }
-               }
-            }), false);
 
             RegisterCommand("vmenuclient", new Action<dynamic, List<dynamic>, string>((dynamic source, List<dynamic> args, string rawCommand) =>
             {
