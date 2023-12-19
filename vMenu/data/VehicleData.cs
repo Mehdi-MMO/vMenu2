@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CitizenFX.Core;
+﻿using System.Collections.Generic;
+
 using static CitizenFX.Core.Native.API;
 
-namespace vMenuClient
+namespace vMenuClient.data
 {
     public static class VehicleData
     {
-        public struct VehicleColor
+        public readonly struct VehicleColor
         {
             public readonly int id;
             public readonly string label;
@@ -19,24 +15,89 @@ namespace vMenuClient
             {
                 if (label == "veh_color_taxi_yellow")
                 {
-                    if (CitizenFX.Core.Native.API.GetLabelText("veh_color_taxi_yellow") == "NULL")
+                    if (GetLabelText("veh_color_taxi_yellow") == "NULL")
                     {
-                        CitizenFX.Core.Native.API.AddTextEntry("veh_color_taxi_yellow", $"Taxi {CitizenFX.Core.Native.API.GetLabelText("IEC_T20_2")}");
+                        AddTextEntry("veh_color_taxi_yellow", $"Taxi {GetLabelText("IEC_T20_2")}");
                     }
                 }
                 else if (label == "veh_color_off_white")
                 {
-                    if (CitizenFX.Core.Native.API.GetLabelText("veh_color_off_white") == "NULL")
+                    if (GetLabelText("veh_color_off_white") == "NULL")
                     {
-                        CitizenFX.Core.Native.API.AddTextEntry("veh_color_off_white", "Off White");
+                        AddTextEntry("veh_color_off_white", "Off White");
                     }
                 }
                 else if (label == "VERY_DARK_BLUE")
                 {
-                    if (CitizenFX.Core.Native.API.GetLabelText("VERY_DARK_BLUE") == "NULL")
+                    if (GetLabelText("VERY_DARK_BLUE") == "NULL")
                     {
-                        CitizenFX.Core.Native.API.AddTextEntry("VERY_DARK_BLUE", "Very Dark Blue");
+                        AddTextEntry("VERY_DARK_BLUE", "Very Dark Blue");
                     }
+                }
+                // Chameleon Colour Labels //
+                else if (label == "G9_PAINT01")
+                {
+                    AddTextEntry("G9_PAINT01", "Monochrome");
+                }
+                else if (label == "G9_PAINT02")
+                {
+                    AddTextEntry("G9_PAINT02", "Night & Day");
+                }
+                else if (label == "G9_PAINT03")
+                {
+                    AddTextEntry("G9_PAINT03", "The Verlierer");
+                }
+                else if (label == "G9_PAINT04")
+                {
+                    AddTextEntry("G9_PAINT04", "Sprunk Extreme");
+                }
+                else if (label == "G9_PAINT05")
+                {
+                    AddTextEntry("G9_PAINT05", "Vice City");
+                }
+                else if (label == "G9_PAINT06")
+                {
+                    AddTextEntry("G9_PAINT06", "Synthwave Nights");
+                }
+                else if (label == "G9_PAINT07")
+                {
+                    AddTextEntry("G9_PAINT07", "Four Seasons");
+                }
+                else if (label == "G9_PAINT08")
+                {
+                    AddTextEntry("G9_PAINT08", "Maisonette 9 Throwback");
+                }
+                else if (label == "G9_PAINT09")
+                {
+                    AddTextEntry("G9_PAINT09", "Bubblegum");
+                }
+                else if (label == "G9_PAINT10")
+                {
+                    AddTextEntry("G9_PAINT10", "Full Rainbow");
+                }
+                else if (label == "G9_PAINT11")
+                {
+                    AddTextEntry("G9_PAINT11", "Sunset");
+                }
+                else if (label == "G9_PAINT12")
+                {
+                    AddTextEntry("G9_PAINT12", "The Seven");
+                }
+                else if (label == "G9_PAINT13")
+                {
+                    AddTextEntry("G9_PAINT13", "Kamen Rider");
+                }
+                else if (label == "G9_PAINT14")
+                {
+                    AddTextEntry("G9_PAINT14", "Chromatic Aberration");
+                }
+                else if (label == "G9_PAINT15")
+                {
+                    AddTextEntry("G9_PAINT15", "It's Christmas!");
+                }
+                else if (label == "G9_PAINT16")
+                {
+                    AddTextEntry("G9_PAINT16", "Temperature");
                 }
 
                 this.label = label;
@@ -44,7 +105,7 @@ namespace vMenuClient
             }
         }
 
-        public static readonly List<VehicleColor> ClassicColors = new List<VehicleColor>()
+        public static readonly List<VehicleColor> ClassicColors = new()
         {
             new VehicleColor(0, "BLACK"),
             new VehicleColor(1, "GRAPHITE"),
@@ -134,7 +195,7 @@ namespace vMenuClient
             new VehicleColor(150, "LAVA_RED"),
         };
 
-        public static readonly List<VehicleColor> MatteColors = new List<VehicleColor>()
+        public static readonly List<VehicleColor> MatteColors = new()
         {
             new VehicleColor(12, "BLACK"),
             new VehicleColor(13, "GREY"),
@@ -163,7 +224,7 @@ namespace vMenuClient
             new VehicleColor(155, "MATTE_FOIL"),
         };
 
-        public static readonly List<VehicleColor> MetalColors = new List<VehicleColor>()
+        public static readonly List<VehicleColor> MetalColors = new()
         {
             new VehicleColor(117, "BR_STEEL"),
             new VehicleColor(118, "BR BLACK_STEEL"),
@@ -173,7 +234,7 @@ namespace vMenuClient
             new VehicleColor(159, "GOLD_S"),
         };
 
-        public static readonly List<VehicleColor> UtilColors = new List<VehicleColor>()
+        public static readonly List<VehicleColor> UtilColors = new()
         {
             new VehicleColor(15, "BLACK"),
             new VehicleColor(16, "FMMC_COL1_1"),
@@ -221,7 +282,7 @@ namespace vMenuClient
             new VehicleColor(160, "YELLOW")
         };
 
-        public static readonly List<VehicleColor> WornColors = new List<VehicleColor>()
+        public static readonly List<VehicleColor> WornColors = new()
         {
             new VehicleColor(21, "BLACK"),
             new VehicleColor(22, "GRAPHITE"),
@@ -261,6 +322,27 @@ namespace vMenuClient
             new VehicleColor(133, "OLIVE_GREEN"),
         };
 
+        // Chameleon Colour List //
+        public static readonly List<VehicleColor> ChameleonColors = new()
+        {
+            new VehicleColor(223, "G9_PAINT01"),
+            new VehicleColor(224, "G9_PAINT02"),
+            new VehicleColor(225, "G9_PAINT03"),
+            new VehicleColor(226, "G9_PAINT04"),
+            new VehicleColor(227, "G9_PAINT05"),
+            new VehicleColor(228, "G9_PAINT06"),
+            new VehicleColor(229, "G9_PAINT07"),
+            new VehicleColor(230, "G9_PAINT08"),
+            new VehicleColor(231, "G9_PAINT09"),
+            new VehicleColor(232, "G9_PAINT10"),
+            new VehicleColor(233, "G9_PAINT11"),
+            new VehicleColor(234, "G9_PAINT12"),
+            new VehicleColor(235, "G9_PAINT13"),
+            new VehicleColor(236, "G9_PAINT14"),
+            new VehicleColor(237, "G9_PAINT15"),
+            new VehicleColor(238, "G9_PAINT16"),
+        };
+
         public static class Vehicles
         {
             #region Vehicle List Per Class
@@ -272,7 +354,7 @@ namespace vMenuClient
                 "BLISTA",
                 "BRIOSO",
                 "BRIOSO2", // CAYO PERICO (MPHEIST4) DLC - Requires b2189
-                "BRIOSO3", // Criminal Enterprise (MPSUM2) DLC - Requires b2699
+                "BRIOSO3", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
                 "CLUB", // SUMMER SPECIAL (MPSUM) DLC - Requires b2060
                 "DILETTANTE",
                 "DILETTANTE2",
@@ -313,7 +395,7 @@ namespace vMenuClient
                 "PRIMO",
                 "PRIMO2",
                 "REGINA",
-                "RHINEHART", // Criminal Enterprise (MPSUM2) DLC - Requires b2699
+                "RHINEHART", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
                 "ROMERO",
                 "SCHAFTER2",
                 "SCHAFTER5",
@@ -354,7 +436,7 @@ namespace vMenuClient
                 "GRESLEY",
                 "HABANERO",
                 "HUNTLEY",
-                "ISSI8", // LOS SANTOS DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
+                "ISSI8", // DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "IWAGEN", // THE CONTRACT (MPSECURITY) DLC - Requires b2545
                 "JUBILEE", // THE CONTRACT (MPSECURITY) DLC - Requires b2545
                 "LANDSTALKER",
@@ -385,10 +467,10 @@ namespace vMenuClient
                 "FELON",
                 "FELON2",
                 "JACKAL",
-                "KANJOSJ", // Criminal Enterprise (MPSUM2) DLC - Requires b2699
+                "KANJOSJ", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
                 "ORACLE",
                 "ORACLE2",
-                "POSTLUDE", // Criminal Enterprise (MPSUM2) DLC - Requires b2699
+                "POSTLUDE", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
                 "PREVION", // LS TUNERS (MPTUNER) DLC - Requires b2372
                 "SENTINEL",
                 "SENTINEL2",
@@ -403,7 +485,7 @@ namespace vMenuClient
             {
                 "BLADE",
                 "BRIGHAM", // SA MERCENARIES (MP2023_01) DLC - Requires b2944
-                "BROADWAY", // LOS SANTOS DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
+                "BROADWAY", // DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "BUCCANEER",
                 "BUCCANEER2",
                 "BUFFALO4", // THE CONTRACT (MPSECURITY) DLC - Requires b2545
@@ -426,7 +508,7 @@ namespace vMenuClient
                 "DUKES2",
                 "DUKES3", // SUMMER SPECIAL (MPSUM) DLC - Requires b2060
                 "ELLIE",
-                "EUDORA", // LOS SANTOS DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
+                "EUDORA", // DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "FACTION",
                 "FACTION2",
                 "FACTION3",
@@ -435,7 +517,7 @@ namespace vMenuClient
                 "GAUNTLET3", // CASINO AND RESORT (MPVINEWOOD) DLC - Requires b2060
                 "GAUNTLET4", // CASINO AND RESORT (MPVINEWOOD) DLC - Requires b2060
                 "GAUNTLET5", // SUMMER SPECIAL (MPSUM) DLC - Requires b2060
-                "GREENWOOD", // Criminal Enterprise (MPSUM2) DLC - Requires b2699
+                "GREENWOOD", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
                 "HERMES",
                 "HOTKNIFE",
                 "HUSTLER",
@@ -459,7 +541,7 @@ namespace vMenuClient
                 "RUINER",
                 "RUINER2",
                 "RUINER3",
-                "RUINER4", // Criminal Enterprise (MPSUM2) DLC - Requires b2699
+                "RUINER4", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
                 "SABREGT",
                 "SABREGT2",
                 "SLAMVAN",
@@ -470,20 +552,20 @@ namespace vMenuClient
                 "SLAMVAN6",
                 "STALION",
                 "STALION2",
-                "TAHOMA", // LOS SANTOS DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
+                "TAHOMA", // DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "TAMPA",
                 "TAMPA3",
                 "TULIP",
-                "TULIP2", // LOS SANTOS DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
+                "TULIP2", // DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "VAMOS",
                 "VIGERO",
-                "VIGERO2", // Criminal Enterprise (MPSUM2) DLC - Requires b2699
+                "VIGERO2", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
                 "VIRGO",
                 "VIRGO2",
                 "VIRGO3",
                 "VOODOO",
                 "VOODOO2",
-                "WEEVIL2", // Criminal Enterprise (MPSUM2) DLC - Requires b2699
+                "WEEVIL2", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
                 "YOSEMITE",
                 "YOSEMITE2", // CASINO HEIST (MPHEIST3) DLC - Requires b2060
             };
@@ -560,14 +642,14 @@ namespace vMenuClient
                 "COMET7", // THE CONTRACT (MPSECURITY) DLC - Requires b2545
                 "COQUETTE",
                 "COQUETTE4", // SUMMER SPECIAL (MPSUM) DLC - Requires b2060
-                "CORSITA", // Criminal Enterprise (MPSUM2) DLC - Requires b2699
+                "CORSITA", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
                 "COUREUR", // SA MERCENARIES (MP2023_01) DLC - Requires b2944
                 "CYPHER", // LS TUNERS (MPTUNER) DLC - Requires b2372
                 "DRAFTER", // CASINO AND RESORT (MPVINEWOOD) DLC - Requires b2060
                 "ELEGY",
                 "ELEGY2",
                 "EUROS", // LS TUNERS (MPTUNER) DLC - Requires b2372
-                "EVERON2", // LOS SANTOS DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
+                "EVERON2", // DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "FELTZER2",
                 "FLASHGT",
                 "FUROREGT",
@@ -599,14 +681,14 @@ namespace vMenuClient
                 "NINEF",
                 "NINEF2",
                 "OMNIS",
-                "OMNISEGT", // Criminal Enterprise (MPSUM2) DLC - Requires b2699
-                "PANTHERE", // LOS SANTOS DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
+                "OMNISEGT", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
+                "PANTHERE", // DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "PARAGON", // CASINO AND RESORT (MPVINEWOOD) DLC - Requires b2060
                 "PARAGON2", // CASINO AND RESORT (MPVINEWOOD) DLC - Requires b2060
                 "PARIAH",
                 "PENUMBRA",
                 "PENUMBRA2", // SUMMER SPECIAL (MPSUM) DLC - Requires b2060
-                "R300", // LOS SANTOS DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
+                "R300", // DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "RAIDEN",
                 "RAPIDGT",
                 "RAPIDGT2",
@@ -622,9 +704,9 @@ namespace vMenuClient
                 "SCHLAGEN",
                 "SCHWARZER",
                 "SENTINEL3",
-                "SENTINEL4", // Criminal Enterprise (MPSUM2) DLC - Requires b2699
+                "SENTINEL4", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
                 "SEVEN70",
-                "SM722", // Criminal Enterprise (MPSUM2) DLC - Requires b2699
+                "SM722", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
                 "SPECTER",
                 "SPECTER2",
                 "STINGERTT", // SA MERCENARIES (MP2023_01) DLC - Requires b2944
@@ -634,8 +716,8 @@ namespace vMenuClient
                 "SULTAN3", // LS TUNERS (MPTUNER) DLC - Requires b2372
                 "SURANO",
                 "TAMPA2",
-                "TENF", // Criminal Enterprise (MPSUM2) DLC - Requires b2699
-                "TENF2", // Criminal Enterprise (MPSUM2) DLC - Requires b2699
+                "TENF", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
+                "TENF2", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
                 "TROPOS",
                 "VERLIERER2",
                 "VECTRE", // LS TUNERS (MPTUNER) DLC - Requires b2372
@@ -662,7 +744,7 @@ namespace vMenuClient
                 "EMERUS", // CASINO AND RESORT (MPVINEWOOD) DLC - Requires b2060
                 "ENTITYXF",
                 "ENTITY2",
-                "ENTITY3", // LOS SANTOS DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
+                "ENTITY3", // DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "FMJ",
                 "FURIA", // CASINO HEIST (MPHEIST3) DLC - Requires b2060
                 "GP1",
@@ -672,7 +754,7 @@ namespace vMenuClient
                 "ITALIGTB2",
                 "KRIEGER", // CASINO AND RESORT (MPVINEWOOD) DLC - Requires b2060
                 "LE7B",
-                "LM87", // Criminal Enterprise (MPSUM2) DLC - Requires b2699
+                "LM87", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
                 "NERO",
                 "NERO2",
                 "OSIRIS",
@@ -691,17 +773,17 @@ namespace vMenuClient
                 "TEZERACT",
                 "THRAX", // CASINO AND RESORT (MPVINEWOOD) DLC - Requires b2060
                 "TIGON", // SUMMER SPECIAL (MPSUM) DLC - Requires b2060
-                "TORERO2", // Criminal Enterprise (MPSUM2) DLC - Requires b2699
+                "TORERO2", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
                 "TURISMOR",
                 "TYRANT",
                 "TYRUS",
                 "VACCA",
                 "VAGNER",
                 "VIGILANTE",
+                "VIRTUE", // DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "VISIONE",
                 "VOLTIC",
                 "VOLTIC2",
-                "VIRTUE", // LOS SANTOS DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "XA21",
                 "ZENO", // THE CONTRACT (MPSECURITY) DLC - Requires b2545
                 "ZENTORNO",
@@ -744,13 +826,13 @@ namespace vMenuClient
                 "LECTRO",
                 "MANCHEZ",
                 "MANCHEZ2", // CAYO PERICO (MPHEIST4) DLC - Requires b2189
-                "MANCHEZ3", // LOS SANTOS DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
+                "MANCHEZ3", // DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "NEMESIS",
                 "NIGHTBLADE",
                 "OPPRESSOR",
                 "OPPRESSOR2",
                 "PCJ",
-                "POWERSURGE", // LOS SANTOS DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
+                "POWERSURGE", // DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "RATBIKE",
                 "REEVER", // THE CONTRACT (MPSECURITY) DLC - Requires b2545
                 "RROCKET", // CASINO AND RESORT (MPVINEWOOD) DLC - Requires b2060
@@ -782,7 +864,7 @@ namespace vMenuClient
                 "BLAZER4",
                 "BLAZER5",
                 "BODHI2",
-                "BOOR", // LOS SANTOS DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
+                "BOOR", // DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "BRAWLER",
                 "BRUISER",
                 "BRUISER2",
@@ -793,7 +875,7 @@ namespace vMenuClient
                 "CARACARA",
                 "CARACARA2", // CASINO AND RESORT (MPVINEWOOD) DLC - Requires b2060
                 "DLOADER",
-                "DRAUGUR", // Criminal Enterprise (MPSUM2) DLC - Requires b2699
+                "DRAUGUR", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
                 "DUBSTA3",
                 "DUNE",
                 "DUNE2",
@@ -939,7 +1021,7 @@ namespace vMenuClient
                 "GBURRITO",
                 "GBURRITO2",
                 "JOURNEY",
-                "JOURNEY2", // LOS SANTOS DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
+                "JOURNEY2", // DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "MINIVAN",
                 "MINIVAN2",
                 "PARADISE",
@@ -954,7 +1036,7 @@ namespace vMenuClient
                 "SPEEDO5", // SA MERCENARIES (MP2023_01) DLC - Requires b2944
                 "SURFER",
                 "SURFER2",
-                "SURFER3", // LOS SANTOS DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
+                "SURFER3", // DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "TACO",
                 "YOUGA",
                 "YOUGA2",
@@ -1019,7 +1101,7 @@ namespace vMenuClient
                 "CARGOBOB2",
                 "CARGOBOB3",
                 "CARGOBOB4",
-                "CONADA", // Criminal Enterprise (MPSUM2) DLC - Requires b2699
+                "CONADA", // CRIMINAL ENTERPRISES (MPSUM2) DLC - Requires b2699
                 "CONADA2", // SA MERCENARIES (MP2023_01) DLC - Requires b2944
                 "FROGGER",
                 "FROGGER2",
@@ -1056,7 +1138,7 @@ namespace vMenuClient
                 "BLIMP3",
                 "BOMBUSHKA",
                 "CARGOPLANE",
-                "CARGOPLANE2", // LOS SANTOS DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
+                "CARGOPLANE2", // DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "CUBAN800",
                 "DODO",
                 "DUSTER",
@@ -1079,7 +1161,7 @@ namespace vMenuClient
                 "SEABREEZE",
                 "SHAMAL",
                 "STARLING",
-                "STEAMER216", // SA MERCENARIES (MP2023_01) DLC - Requires b2944
+                "STREAMER216", // SA MERCENARIES (MP2023_01) DLC - Requires b2944
                 "STRIKEFORCE",
                 "STUNT",
                 "TITAN",
@@ -1095,7 +1177,7 @@ namespace vMenuClient
             {
                 "AIRBUS",
                 "BRICKADE",
-                "BRICKADE2", // LOS SANTOS DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
+                "BRICKADE2", // DRUG WARS (MPCHRISTMAS3) DLC - Requires b2802
                 "BUS",
                 "COACH",
                 "PBUS2",
@@ -1229,7 +1311,8 @@ namespace vMenuClient
             Military = 19,
             Commercial = 20,
             Trains = 21
-             */
+            OpenWheel = 22
+            */
 
             public static Dictionary<string, List<string>> VehicleClasses { get; } = new Dictionary<string, List<string>>()
             {
@@ -1261,7 +1344,7 @@ namespace vMenuClient
 
             public static string[] GetAllVehicles()
             {
-                List<string> vehs = new List<string>();
+                var vehs = new List<string>();
                 foreach (var vc in VehicleClasses)
                 {
                     foreach (var c in vc.Value)
