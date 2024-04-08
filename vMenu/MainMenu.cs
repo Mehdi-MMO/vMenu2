@@ -183,17 +183,17 @@ namespace vMenuClient
                 NoClipKey = "F2";
             }
 
-            if (!(GetSettingsString(Setting.vmenu_menu_toggle_key) == null))
+            /*if (!(GetSettingsString(Setting.vmenu_menu_toggle_key) == null))
             {
                 MenuToggleKey = GetSettingsString(Setting.vmenu_menu_toggle_key);
             }
             else
             {
                 MenuToggleKey = "M";
-            }
+            }*/
 
             RegisterKeyMapping($"vMenu:{KeyMappingID}:NoClip", "vMenu NoClip Toggle Button", "keyboard", NoClipKey);
-            RegisterKeyMapping($"vMenu:{KeyMappingID}:MenuToggle", "vMenu Toggle Button", "keyboard", MenuToggleKey);
+            #RegisterKeyMapping($"vMenu:{KeyMappingID}:MenuToggle", "vMenu Toggle Button", "keyboard", MenuToggleKey);
             #endregion
             if (EnableExperimentalFeatures)
             {
@@ -914,11 +914,11 @@ namespace vMenuClient
             {
                 Menu.RemoveMenuItem(worldSubmenuBtn);
             }
-
+            /*
             if (MiscSettingsMenu != null)
             {
                 MenuController.EnableMenuToggleKeyOnController = !MiscSettingsMenu.MiscDisableControllerSupport;
-            }
+            }*/
         }
         #endregion
     }
